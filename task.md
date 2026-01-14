@@ -1,0 +1,23 @@
+# Task List - IT Exams & Learning Platform
+
+- [x] Project Setup <!-- id: 0 -->
+    - [x] Initialize Django Project & DRF <!-- id: 1 -->
+    - [x] Initialize React Frontend (Vite) <!-- id: 2 -->
+    - [x] Configure PostgreSQL database (Using SQLite for now, easy to switch) <!-- id: 3 -->
+- [ ] Backend Implementation <!-- id: 4 -->
+    - [x] Custom User Model & JWT Auth <!-- id: 5 -->
+    - [x] Course & Lesson Models/APIs <!-- id: 6 -->
+    - [x] Exam & Question Models/APIs <!-- id: 7 -->
+    - [x] Scoring Logic & Leaderboard API <!-- id: 8 -->
+    - [ ] Admin Panel Configuration <!-- id: 9 -->
+- [ ] Frontend Implementation <!-- id: 10 -->
+    - [x] Design System & Tailwind Config <!-- id: 11 -->
+    - [ ] Auth Pages (Login/Register) <!-- id: 12 -->
+    - [x] Dashboard & Profile Page <!-- id: 13 -->
+    - [x] Course & Lesson Viewer <!-- id: 14 -->
+    - [ ] Exam Player with Timer <!-- id: 15 -->
+    - [ ] Leaderboard & Statistics Charts <!-- id: 16 -->
+- [ ] Polish & Optimization <!-- id: 17 -->
+    - [ ] Responsive UI refinements <!-- id: 18 -->
+    - [ ] Performance optimization (Leaderboard caching) <!-- id: 19 -->
+    - [ ] Final Testing & Bug Fixes <!-- id: 20 -->
