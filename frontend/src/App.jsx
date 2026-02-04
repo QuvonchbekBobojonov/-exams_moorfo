@@ -14,6 +14,8 @@ import Register from './pages/Register';
 import LessonView from './pages/LessonView';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import Certificate from './pages/Certificate';
+import PublicProfile from './pages/PublicProfile';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -71,6 +73,8 @@ function App() {
                     <Settings />
                   </ProtectedRoute>
                 } />
+                <Route path="/certificate/:id" element={<ProtectedRoute><Certificate /></ProtectedRoute>} />
+                <Route path="/users/:id" element={<ProtectedRoute><PublicProfile /></ProtectedRoute>} />
               </Routes>
             </main>
           </div>

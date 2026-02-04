@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, ChevronLeft, ChevronRight, Send, AlertCircle, CheckCircle2, Loader2, XCircle } from 'lucide-react';
+import { Clock, ChevronLeft, ChevronRight, Send, AlertCircle, CheckCircle2, Loader2, XCircle, Award } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import API from '../api/axios';
 
@@ -117,12 +117,22 @@ const ExamPlayer = () => {
                     >
                         Kurslarga qaytish
                     </button>
-                    <button
-                        onClick={() => window.location.reload()}
-                        className="px-8 py-4 bg-indigo-600 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-600/30"
-                    >
-                        Qayta Topshirish
-                    </button>
+                    {result.is_passed ? (
+                        <button
+                            onClick={() => navigate(`/certificate/${result.id}`)}
+                            className="px-8 py-4 bg-amber-500 text-slate-900 rounded-2xl font-bold hover:bg-amber-400 transition-all shadow-xl shadow-amber-500/20 flex items-center gap-2"
+                        >
+                            <Award size={20} />
+                            <span>Sertifikatni Olish</span>
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="px-8 py-4 bg-indigo-600 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-600/30"
+                        >
+                            Qayta Topshirish
+                        </button>
+                    )}
                 </div>
             </div>
         );

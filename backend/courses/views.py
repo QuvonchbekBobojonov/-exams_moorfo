@@ -28,3 +28,17 @@ class LessonDetailView(generics.RetrieveAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+class CourseCompletersView(generics.ListAPIView):
+    # Import locally to avoid circular dependencies if any, though likely fine at top if careful.
+    # But usually views don't cause circular imports with serializers unless view imports serializer which imports view's app model...
+    permission_classes = (permissions.AllowAny,)
+    
+    def get_serializer_class(self):
+        from results.serializers import ExamAttemptSerializer
+        return ExamAttemptSerializer
+
+    def get_queryset(self):
+        from results.models import ExamAttempt
+        slug = self.kwargs['slug']
+        return ExamAttempt.objects.filter(exam__course__slug=slug, is_passed=True).order_by('-score', '-completed_at')[:20]

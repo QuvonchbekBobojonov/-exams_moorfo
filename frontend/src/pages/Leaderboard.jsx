@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Star, Crown, ArrowUp, ArrowDown, Search, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
 
 const Leaderboard = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [period, setPeriod] = useState('all'); // 'all', 'weekly', 'monthly'
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchLeaderboard = async () => {
@@ -71,11 +73,12 @@ const Leaderboard = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="glass-card p-8 md:p-10 rounded-[2.5rem] text-center relative pt-16 border-indigo-500/30 md:order-2 z-10 md:scale-110 shadow-[0_20px_50px_rgba(79,70,229,0.15)] bg-slate-900/40"
+                            onClick={() => navigate(`/users/${topThree[0].id}`)}
+                            className="glass-card p-8 md:p-10 rounded-[2.5rem] text-center relative pt-16 border-indigo-500/30 md:order-2 z-10 md:scale-110 shadow-[0_20px_50px_rgba(79,70,229,0.15)] bg-slate-900/40 cursor-pointer hover:bg-slate-800/60 transition-colors"
                         >
                             <div className="absolute top-[-50px] left-1/2 -translate-x-1/2">
                                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-amber-500/20 p-1.5 border-4 border-amber-500 relative">
-                                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${topThree[0].username}`} className="w-full h-full rounded-full" alt="" />
+                                    <img src={topThree[0].avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${topThree[0].username}`} className="w-full h-full rounded-full bg-slate-900" alt="" />
                                     <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-amber-500 animate-bounce">
                                         <Crown size={28} md:size={32} fill="currentColor" />
                                     </div>
@@ -99,11 +102,12 @@ const Leaderboard = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="glass-card p-6 md:p-8 rounded-[2rem] text-center relative pt-12 md:order-1 h-fit"
+                            onClick={() => navigate(`/users/${topThree[1].id}`)}
+                            className="glass-card p-6 md:p-8 rounded-[2rem] text-center relative pt-12 md:order-1 h-fit cursor-pointer hover:bg-slate-800/60 transition-colors"
                         >
                             <div className="absolute top-[-40px] left-1/2 -translate-x-1/2">
                                 <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-slate-400/20 p-1 border-2 border-slate-400 relative">
-                                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${topThree[1].username}`} className="w-full h-full rounded-full" alt="" />
+                                    <img src={topThree[1].avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${topThree[1].username}`} className="w-full h-full rounded-full bg-slate-900" alt="" />
                                     <div className="absolute -bottom-2 -right-2 bg-slate-400 text-slate-950 font-black w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center border-4 border-slate-900 text-[10px] md:text-xs">2</div>
                                 </div>
                             </div>
@@ -120,11 +124,12 @@ const Leaderboard = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="glass-card p-6 md:p-8 rounded-[2rem] text-center relative pt-12 md:order-3 h-fit"
+                            onClick={() => navigate(`/users/${topThree[2].id}`)}
+                            className="glass-card p-6 md:p-8 rounded-[2rem] text-center relative pt-12 md:order-3 h-fit cursor-pointer hover:bg-slate-800/60 transition-colors"
                         >
                             <div className="absolute top-[-40px] left-1/2 -translate-x-1/2">
                                 <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-amber-700/20 p-1 border-2 border-amber-800 relative">
-                                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${topThree[2].username}`} className="w-full h-full rounded-full" alt="" />
+                                    <img src={topThree[2].avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${topThree[2].username}`} className="w-full h-full rounded-full bg-slate-900" alt="" />
                                     <div className="absolute -bottom-2 -right-2 bg-amber-800 text-white font-black w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center border-4 border-slate-900 text-[10px] md:text-xs">3</div>
                                 </div>
                             </div>
@@ -151,13 +156,14 @@ const Leaderboard = () => {
                             <motion.div
                                 key={u.id}
                                 whileHover={{ backgroundColor: 'rgba(139, 92, 246, 0.03)' }}
+                                onClick={() => navigate(`/users/${u.id}`)}
                                 className="px-10 py-6 flex items-center justify-between transition-colors cursor-pointer group"
                             >
                                 <div className="flex items-center gap-10">
                                     <span className="font-black text-slate-700 w-10 text-xl">#{idx + 4}</span>
                                     <div className="flex items-center gap-5">
                                         <div className="relative">
-                                            <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${u.username}`} className="w-14 h-14 bg-slate-800 rounded-2xl border-2 border-slate-700/50 group-hover:border-indigo-500/50 transition-all p-0.5" alt="" />
+                                            <img src={u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.username}`} className="w-14 h-14 bg-slate-800 rounded-2xl border-2 border-slate-700/50 group-hover:border-indigo-500/50 transition-all p-0.5" alt="" />
                                             <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-slate-950 shadow-lg" />
                                         </div>
                                         <div>

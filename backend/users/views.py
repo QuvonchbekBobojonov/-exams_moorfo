@@ -2,7 +2,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import User
-from .serializers import UserSerializer, RegisterSerializer
+from .serializers import UserSerializer, RegisterSerializer, PublicUserSerializer
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -97,3 +97,13 @@ class DashboardStatsView(APIView):
             'study_time': user.study_time,
             'progression': progression
         })
+
+class PublicUserProfileView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    # Import inside or assume imported at top. I should verify import.
+    # Actually I should update the import line too.
+    # But replace_file_content for import line is separate.
+    # I'll rely on the fact that I will update imports in a separate call if needed or use multi-replace.
+    # Wait, I can use multi-replace.
+    serializer_class = PublicUserSerializer
+    permission_classes = (permissions.IsAuthenticated,)

@@ -28,10 +28,11 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     lessons = LessonSerializer(many=True, read_only=True)
     exam_id = serializers.SerializerMethodField()
     total_xp = serializers.SerializerMethodField()
+    user_status = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
-        fields = ('id', 'title', 'slug', 'description', 'thumbnail', 'created_at', 'lessons', 'exam_id', 'category', 'difficulty', 'instructor_name', 'instructor_bio', 'estimated_duration', 'total_xp')
+        fields = ('id', 'title', 'slug', 'description', 'thumbnail', 'created_at', 'lessons', 'exam_id', 'category', 'difficulty', 'instructor_name', 'instructor_bio', 'estimated_duration', 'total_xp', 'user_status')
 
     def get_exam_id(self, obj):
         return obj.exam.id if hasattr(obj, 'exam') else None
@@ -41,3 +42,12 @@ class CourseDetailSerializer(serializers.ModelSerializer):
             from django.db.models import Sum
             return obj.exam.questions.aggregate(total=Sum('points'))['total'] or 0
         return 0
+
+    def get_user_status(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated and hasattr(obj, 'exam'):
+            from results.models import ExamAttempt
+            attempt = ExamAttempt.objects.filter(user=request.user, exam=obj.exam, is_passed=True).first()
+            if attempt:
+                return {'is_passed': True, 'attempt_id': attempt.id, 'score': attempt.score}
+        return {'is_passed': False}

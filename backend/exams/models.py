@@ -15,6 +15,7 @@ class Exam(models.Model):
 class Question(models.Model):
     exam = models.ForeignKey(Exam, related_name='questions', on_delete=models.CASCADE)
     text = models.TextField()
+    code = models.TextField(blank=True, null=True)
     points = models.IntegerField(default=10)
 
     def __str__(self):
