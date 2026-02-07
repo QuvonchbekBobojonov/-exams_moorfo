@@ -1,3 +1,4 @@
 /.env
 /moorfo.tar.gz
 /backend/server_error.log
+db.sqlite3
