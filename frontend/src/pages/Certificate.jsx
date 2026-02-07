@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Award, CheckCircle2, Download, Share2, ArrowLeft, Heart, MessageCircle, Send, User } from 'lucide-react';
 import API from '../api/axios';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -204,19 +204,26 @@ const Certificate = () => {
                                 onClick={handleLike}
                                 disabled={liking}
                                 className={`flex items-center gap-3 px-6 py-3 rounded-xl font-bold transition-all ${data.is_liked
-                                        ? 'bg-rose-500/10 text-rose-500 hover:bg-rose-500/20'
-                                        : 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700'
+                                    ? 'bg-rose-500/10 text-rose-500 hover:bg-rose-500/20'
+                                    : 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700'
                                     }`}
                             >
                                 <Heart size={24} fill={data.is_liked ? "currentColor" : "none"} className={liking ? "animate-pulse" : ""} />
-                                <span>{data.likes_count} Like</span>
+                                <span>{data.likes_count} {data.likes_count === 1 ? 'Like' : 'Likes'}</span>
                             </button>
                             <div className="flex items-center gap-3 text-slate-400 px-6 py-3">
                                 <MessageCircle size={24} />
                                 <span className="font-bold">{comments.length} Fikrlar</span>
                             </div>
                         </div>
-                        <button className="p-3 bg-slate-800 text-slate-400 rounded-xl hover:bg-slate-700 hover:text-white transition-all">
+                        <button
+                            onClick={() => {
+                                navigator.clipboard.writeText(window.location.href);
+                                alert("Sertifikat havolasi nusxalandi!");
+                            }}
+                            className="p-3 bg-slate-800 text-slate-400 rounded-xl hover:bg-slate-700 hover:text-white transition-all"
+                            title="Havolani nusxalash"
+                        >
                             <Share2 size={20} />
                         </button>
                     </div>
@@ -285,11 +292,14 @@ const Certificate = () => {
                             />
                         </div>
                         <h3 className="font-bold text-lg mb-1">{data.candidate_name}</h3>
-                        <p className="text-sm text-slate-500 mb-6">Moorfo certified student</p>
+                        <p className="text-sm text-slate-500 mb-6 font-medium italic">Moorfo muvaffaqiyatli talabasi</p>
 
-                        <button className="w-full py-3 bg-slate-800 rounded-xl font-bold text-sm hover:bg-slate-700 transition-colors">
+                        <Link
+                            to={`/users/${data.user_id}`}
+                            className="block w-full py-3 bg-slate-800 text-slate-200 rounded-xl font-bold text-sm hover:bg-slate-700 hover:text-white transition-all"
+                        >
                             Profilni Ko'rish
-                        </button>
+                        </Link>
                     </div>
 
                     <div className="p-6 rounded-[2rem] bg-gradient-to-br from-indigo-600 to-purple-600 text-white relative overflow-hidden">

@@ -12,7 +12,7 @@ const PublicProfile = () => {
         const fetchProfile = async () => {
             try {
                 // Endpoint defined in backend/users/urls.py as 'profile/<int:pk>/'
-                const response = await API.get(`/users/profile/${id}/`);
+                const response = await API.get(`/auth/profile/${id}/`);
                 setUser(response.data);
             } catch (error) {
                 console.error("Error loading profile", error);

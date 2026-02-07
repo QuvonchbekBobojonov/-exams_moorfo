@@ -73,6 +73,10 @@ const ProfileSettings = ({ user, refreshUser }) => {
     const [error, setError] = useState('');
     const [formData, setFormData] = useState({
         username: user?.username || '',
+        first_name: user?.first_name || '',
+        last_name: user?.last_name || '',
+        birth_date: user?.birth_date || '',
+        phone_number: user?.phone_number || '',
         bio: user?.bio || '',
         email: user?.email || '',
     });
@@ -122,6 +126,29 @@ const ProfileSettings = ({ user, refreshUser }) => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-3">
+                        <label className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] ml-2">Ism</label>
+                        <input
+                            type="text"
+                            name="first_name"
+                            value={formData.first_name}
+                            onChange={handleChange}
+                            className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl px-6 py-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-bold"
+                        />
+                    </div>
+                    <div className="space-y-3">
+                        <label className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] ml-2">Familiya</label>
+                        <input
+                            type="text"
+                            name="last_name"
+                            value={formData.last_name}
+                            onChange={handleChange}
+                            className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl px-6 py-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-bold"
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
                         <label className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] ml-2">Foydalanuvchi nomi</label>
                         <input
                             type="text"
@@ -137,6 +164,29 @@ const ProfileSettings = ({ user, refreshUser }) => {
                             type="email"
                             name="email"
                             value={formData.email}
+                            onChange={handleChange}
+                            className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl px-6 py-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-bold"
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
+                        <label className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] ml-2">Tug'ilgan sana</label>
+                        <input
+                            type="date"
+                            name="birth_date"
+                            value={formData.birth_date}
+                            onChange={handleChange}
+                            className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl px-6 py-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-bold"
+                        />
+                    </div>
+                    <div className="space-y-3">
+                        <label className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] ml-2">Telefon</label>
+                        <input
+                            type="tel"
+                            name="phone_number"
+                            value={formData.phone_number}
                             onChange={handleChange}
                             className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl px-6 py-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-bold"
                         />

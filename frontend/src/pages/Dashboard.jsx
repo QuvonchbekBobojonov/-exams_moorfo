@@ -131,11 +131,15 @@ const Dashboard = () => {
                     <h3 className="text-xl font-black uppercase tracking-widest text-slate-300 mb-10">Top Ustalar</h3>
                     <div className="space-y-6">
                         {leaderboard.map((u, i) => (
-                            <div key={u.id} className="flex items-center justify-between p-4 rounded-3xl hover:bg-slate-900/50 transition-all group cursor-pointer border border-transparent hover:border-slate-800">
+                            <div
+                                key={u.id}
+                                onClick={() => navigate(`/users/${u.id}`)}
+                                className="flex items-center justify-between p-4 rounded-3xl hover:bg-slate-900/50 transition-all group cursor-pointer border border-transparent hover:border-slate-800"
+                            >
                                 <div className="flex items-center space-x-4">
                                     <div className="relative">
                                         <div className="w-12 h-12 rounded-2xl bg-slate-800 p-0.5 border border-slate-700 group-hover:border-indigo-500/50 transition-colors">
-                                            <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${u.username}`} className="w-full h-full rounded-[14px]" alt="" />
+                                            <img src={u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.username}`} className="w-full h-full rounded-[14px]" alt="" />
                                         </div>
                                         <div className={`absolute -top-2 -left-2 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black border-2 border-slate-950 shadow-lg 
                                             ${i === 0 ? 'bg-amber-500 text-slate-950' : i === 1 ? 'bg-slate-400 text-slate-950' : i === 2 ? 'bg-amber-800 text-white' : 'bg-slate-800 text-slate-400'}`}>

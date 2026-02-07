@@ -8,7 +8,11 @@ const Login = ({ initialIsLogin = true }) => {
     const [isLogin, setIsLogin] = useState(initialIsLogin);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [username, setUsername] = useState(''); // Only for register
+    const [username, setUsername] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [birthDate, setBirthDate] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [error, setError] = useState('');
     const [loadingAction, setLoadingAction] = useState(false);
 
@@ -26,13 +30,21 @@ const Login = ({ initialIsLogin = true }) => {
                 await login(email, password);
                 navigate(from, { replace: true });
             } else {
-                await register({ email, username, password });
+                await register({
+                    email: email || null, // Optional
+                    username,
+                    password,
+                    first_name: firstName,
+                    last_name: lastName,
+                    birth_date: birthDate || null,
+                    phone_number: phoneNumber
+                });
                 setIsLogin(true); // Switch to login after successful registration
-                setError('Registration successful! Please login.');
+                setError('Ro\'yxatdan o\'tish muvaffaqiyatli! Endi tizimga kiring.');
             }
         } catch (err) {
             console.error(err);
-            setError(err.response?.data?.detail || 'Something went wrong. Please check your credentials.');
+            setError(err.response?.data?.detail || err.response?.data?.message || 'Xatolik yuz berdi. Iltimos ma\'lumotlarni tekshiring.');
         } finally {
             setLoadingAction(false);
         }
@@ -71,6 +83,31 @@ const Login = ({ initialIsLogin = true }) => {
 
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         {!isLogin && (
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Ism</label>
+                                    <input
+                                        type="text"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        placeholder="Ali"
+                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Familiya</label>
+                                    <input
+                                        type="text"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        placeholder="Valiyev"
+                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        {!isLogin && (
                             <div className="space-y-2">
                                 <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Foydalanuvchi nomi</label>
                                 <div className="relative group">
@@ -87,13 +124,37 @@ const Login = ({ initialIsLogin = true }) => {
                             </div>
                         )}
 
+                        {!isLogin && (
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Tug'ilgan sana</label>
+                                    <input
+                                        type="date"
+                                        value={birthDate}
+                                        onChange={(e) => setBirthDate(e.target.value)}
+                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 px-4 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-slate-400"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Telefon</label>
+                                    <input
+                                        type="tel"
+                                        value={phoneNumber}
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
+                                        placeholder="+998 90..."
+                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 px-6 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                    />
+                                </div>
+                            </div>
+                        )}
+
                         <div className="space-y-2">
-                            <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Email Manzil</label>
+                            <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Email Manzil (Ixtiyoriy)</label>
                             <div className="relative group">
                                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-500 transition-colors" size={18} />
                                 <input
                                     type="email"
-                                    required
+                                    required={isLogin}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="alex@example.com"
@@ -137,25 +198,6 @@ const Login = ({ initialIsLogin = true }) => {
                         </button>
                     </form>
 
-                    <div className="mt-8">
-                        <div className="relative flex items-center justify-center mb-8">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-slate-800"></div>
-                            </div>
-                            <span className="relative px-4 bg-transparent text-[10px] font-bold text-slate-500 uppercase tracking-widest">Yoki quyidagilar orqali davom eting</span>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <button className="flex items-center justify-center space-x-2 py-3 border border-slate-800 rounded-2xl hover:bg-slate-900 transition-all">
-                                <Github size={18} />
-                                <span className="text-sm font-medium">Github</span>
-                            </button>
-                            <button className="flex items-center justify-center space-x-2 py-3 border border-slate-800 rounded-2xl hover:bg-slate-900 transition-all">
-                                <Globe size={18} />
-                                <span className="text-sm font-medium">Google</span>
-                            </button>
-                        </div>
-                    </div>
 
                     <p className="text-center mt-10 text-slate-500 text-sm">
                         {isLogin ? "Hisobingiz yo'qmi?" : "Allaqachon hisobingiz bormi?"}{' '}
