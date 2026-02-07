@@ -24,10 +24,15 @@ COPY backend/ /app/
 
 # Create a non-root user
 RUN adduser --disabled-password --gecos '' django
+
+# Copy and setup entrypoint
+COPY backend/entrypoint.sh /app/entrypoint.sh
+USER root
+RUN chmod +x /app/entrypoint.sh
 USER django
 
 # Expose port
 EXPOSE 8000
 
-# Start command
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi:application"]
+# Entrypoint command
+ENTRYPOINT ["/app/entrypoint.sh"]
