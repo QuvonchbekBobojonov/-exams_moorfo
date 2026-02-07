@@ -23,8 +23,8 @@ services:
       dockerfile: backend/Dockerfile
     volumes:
       - ./backend:/app
-      - static_volume:/app/staticfiles
-      - media_volume:/app/media
+      - ./backend/staticfiles:/app/staticfiles
+      - ./backend/media:/app/media
     environment:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
