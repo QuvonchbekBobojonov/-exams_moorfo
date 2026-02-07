@@ -17,6 +17,11 @@ import Settings from './pages/Settings';
 import Certificate from './pages/Certificate';
 import PublicProfile from './pages/PublicProfile';
 
+import ManagementDashboard from './pages/ManagementDashboard';
+import UserManagement from './pages/UserManagement';
+import AdminCourses from './pages/AdminCourses';
+import AdminExamBuilder from './pages/AdminExamBuilder';
+
 function App() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -35,7 +40,24 @@ function App() {
 
                 <Route path="/" element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <HomeSwitcher />
+                  </ProtectedRoute>
+                } />
+
+                {/* Admin Specific Routes */}
+                <Route path="/admin/users" element={
+                  <ProtectedRoute adminOnly>
+                    <UserManagement />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/courses" element={
+                  <ProtectedRoute adminOnly>
+                    <AdminCourses />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/exams" element={
+                  <ProtectedRoute adminOnly>
+                    <AdminExamBuilder />
                   </ProtectedRoute>
                 } />
                 <Route path="/courses" element={
@@ -83,5 +105,10 @@ function App() {
     </AuthProvider>
   );
 }
+
+const HomeSwitcher = () => {
+  const { isAdmin } = useAuth();
+  return isAdmin ? <ManagementDashboard /> : <Dashboard />;
+};
 
 export default App;

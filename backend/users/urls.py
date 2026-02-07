@@ -1,6 +1,10 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import RegisterView, ProfileView, LeaderboardView, DashboardStatsView, PublicUserProfileView
+from .views import (
+    RegisterView, ProfileView, LeaderboardView, 
+    DashboardStatsView, PublicUserProfileView,
+    AdminUserListView, AdminToggleStaffView
+)
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -10,4 +14,8 @@ urlpatterns = [
     path('leaderboard/', LeaderboardView.as_view(), name='leaderboard'),
     path('stats/', DashboardStatsView.as_view(), name='dashboard-stats'),
     path('profile/<int:pk>/', PublicUserProfileView.as_view(), name='public-profile'),
+    
+    # Management
+    path('admin/users/', AdminUserListView.as_view(), name='admin-user-list'),
+    path('admin/users/<int:pk>/toggle-staff/', AdminToggleStaffView.as_view(), name='admin-user-toggle-staff'),
 ]

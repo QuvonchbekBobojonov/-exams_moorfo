@@ -22,7 +22,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ('id', 'title', 'slug', 'description', 'thumbnail', 'created_at', 'lessons_count', 'category', 'difficulty', 'estimated_duration')
+        fields = ('id', 'title', 'slug', 'description', 'thumbnail', 'created_at', 'lessons_count', 'category', 'difficulty', 'estimated_duration', 'video_url')
 
 class CourseDetailSerializer(serializers.ModelSerializer):
     lessons = LessonSerializer(many=True, read_only=True)
@@ -32,7 +32,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ('id', 'title', 'slug', 'description', 'thumbnail', 'created_at', 'lessons', 'exam_id', 'category', 'difficulty', 'instructor_name', 'instructor_bio', 'estimated_duration', 'total_xp', 'user_status')
+        fields = ('id', 'title', 'slug', 'description', 'thumbnail', 'created_at', 'lessons', 'exam_id', 'category', 'difficulty', 'instructor_name', 'instructor_bio', 'estimated_duration', 'total_xp', 'user_status', 'video_url')
 
     def get_exam_id(self, obj):
         return obj.exam.id if hasattr(obj, 'exam') else None

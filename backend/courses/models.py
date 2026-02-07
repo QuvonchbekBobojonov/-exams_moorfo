@@ -16,6 +16,7 @@ class Course(models.Model):
     instructor_name = models.CharField(max_length=100, default='Expert Instructor')
     instructor_bio = models.TextField(blank=True, default='Professional software engineer with years of experience.')
     estimated_duration = models.CharField(max_length=50, default='10 hours')
+    video_url = models.URLField(blank=True, null=True, help_text="Demo video URL for the course (e.g., YouTube)")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

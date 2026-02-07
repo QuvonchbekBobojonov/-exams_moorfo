@@ -100,10 +100,23 @@ class DashboardStatsView(APIView):
 
 class PublicUserProfileView(generics.RetrieveAPIView):
     queryset = User.objects.all()
-    # Import inside or assume imported at top. I should verify import.
-    # Actually I should update the import line too.
-    # But replace_file_content for import line is separate.
-    # I'll rely on the fact that I will update imports in a separate call if needed or use multi-replace.
-    # Wait, I can use multi-replace.
     serializer_class = PublicUserSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+# Management Admin Views
+class AdminUserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+class AdminToggleStaffView(APIView):
+    permission_classes = (permissions.IsAdminUser,) # Only superusers or staff? Standard isAdminUser checks is_staff or is_superuser
+
+    def post(self, request, pk):
+        if not request.user.is_superuser:
+            return Response({"detail": "Faqat superuser stafflarni tahrirlay oladi."}, status=status.HTTP_403_FORBIDDEN)
+        
+        user = get_object_or_404(User, pk=pk)
+        user.is_staff = not user.is_staff
+        user.save()
+        return Response(UserSerializer(user).data)

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'https://exams.moorfo.uz/api',
+    baseURL: import.meta.env.VITE_API_BASE_URL || 'https://exams.moorfo.uz/api',
 });
 
 API.interceptors.request.use((config) => {

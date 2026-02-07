@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, Trophy, User, LogOut, Settings, GraduationCap, X } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Trophy, User, LogOut, Settings, GraduationCap, X, Users, Zap } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const SidebarLink = ({ to, icon: Icon, label, onClick }) => (
@@ -20,7 +20,7 @@ const SidebarLink = ({ to, icon: Icon, label, onClick }) => (
 );
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
-    const { user, logout } = useAuth();
+    const { user, logout, isAdmin } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -56,10 +56,25 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     </button>
                 </div>
 
-                <nav className="flex-1 space-y-2">
+                <nav className="flex-1 space-y-2 overflow-y-auto">
                     <SidebarLink to="/" icon={LayoutDashboard} label="Boshqaruv Paneli" onClick={() => isOpen && toggleSidebar()} />
-                    <SidebarLink to="/courses" icon={BookOpen} label="Kurslar" onClick={() => isOpen && toggleSidebar()} />
-                    <SidebarLink to="/leaderboard" icon={Trophy} label="Reyting" onClick={() => isOpen && toggleSidebar()} />
+
+                    {!isAdmin && (
+                        <>
+                            <SidebarLink to="/courses" icon={BookOpen} label="Kurslar" onClick={() => isOpen && toggleSidebar()} />
+                            <SidebarLink to="/leaderboard" icon={Trophy} label="Reyting" onClick={() => isOpen && toggleSidebar()} />
+                        </>
+                    )}
+
+                    {isAdmin && (
+                        <div className="pt-4 mt-4 space-y-2 border-t border-slate-800/50">
+                            <p className="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-2">Boshqaruv</p>
+                            <SidebarLink to="/admin/users" icon={Users} label="Foydalanuvchilar" onClick={() => isOpen && toggleSidebar()} />
+                            <SidebarLink to="/admin/courses" icon={BookOpen} label="Kurslarni sozlash" onClick={() => isOpen && toggleSidebar()} />
+                            <SidebarLink to="/admin/exams" icon={Zap} label="Imtihonlar" onClick={() => isOpen && toggleSidebar()} />
+                        </div>
+                    )}
+
                     <SidebarLink to="/profile" icon={User} label="Profil" onClick={() => isOpen && toggleSidebar()} />
                 </nav>
 

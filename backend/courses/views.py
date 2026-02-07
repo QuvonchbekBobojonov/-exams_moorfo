@@ -42,3 +42,29 @@ class CourseCompletersView(generics.ListAPIView):
         from results.models import ExamAttempt
         slug = self.kwargs['slug']
         return ExamAttempt.objects.filter(exam__course__slug=slug, is_passed=True).order_by('-score', '-completed_at')[:20]
+# Management Admin Views
+class AdminCourseListView(generics.ListCreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+class AdminCourseDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    lookup_field = 'pk'
+    permission_classes = (permissions.IsAdminUser,)
+
+class AdminLessonListView(generics.ListCreateAPIView):
+    serializer_class = LessonSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+    def get_queryset(self):
+        return Lesson.objects.filter(course_id=self.kwargs['course_pk'])
+
+    def perform_create(self, serializer):
+        serializer.save(course_id=self.kwargs['course_pk'])
+
+class AdminLessonDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+    permission_classes = (permissions.IsAdminUser,)

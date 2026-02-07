@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from .models import Exam, Question, Choice
-from .serializers import ExamSerializer
+from .serializers import ExamSerializer, AdminExamSerializer
 from results.models import ExamAttempt
 from results.serializers import ExamAttemptSerializer
 
@@ -11,6 +11,17 @@ class ExamDetailView(generics.RetrieveAPIView):
     queryset = Exam.objects.all()
     serializer_class = ExamSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+                                                                    
+class AdminExamListView(generics.ListCreateAPIView):
+    queryset = Exam.objects.all()
+    serializer_class = AdminExamSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+class AdminExamDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Exam.objects.all()
+    serializer_class = AdminExamSerializer
+    permission_classes = (permissions.IsAdminUser,)
 
 class ExamSubmitView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
