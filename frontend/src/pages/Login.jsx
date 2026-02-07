@@ -27,7 +27,7 @@ const Login = ({ initialIsLogin = true }) => {
         setLoadingAction(true);
         try {
             if (isLogin) {
-                await login(email, password);
+                await login(username, password);
                 navigate(from, { replace: true });
             } else {
                 await register({
@@ -107,22 +107,22 @@ const Login = ({ initialIsLogin = true }) => {
                             </div>
                         )}
 
-                        {!isLogin && (
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Foydalanuvchi nomi</label>
-                                <div className="relative group">
-                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-500 transition-colors" size={18} />
-                                    <input
-                                        type="text"
-                                        required
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        placeholder="johndoe"
-                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
-                                    />
-                                </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">
+                                Foydalanuvchi nomi
+                            </label>
+                            <div className="relative group">
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                                <input
+                                    type="text"
+                                    required
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    placeholder="johndoe"
+                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                />
                             </div>
-                        )}
+                        </div>
 
                         {!isLogin && (
                             <div className="grid grid-cols-2 gap-4">
@@ -148,20 +148,21 @@ const Login = ({ initialIsLogin = true }) => {
                             </div>
                         )}
 
-                        <div className="space-y-2">
-                            <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Email Manzil (Ixtiyoriy)</label>
-                            <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-500 transition-colors" size={18} />
-                                <input
-                                    type="email"
-                                    required={isLogin}
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="alex@example.com"
-                                    className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
-                                />
+                        {!isLogin && (
+                            <div className="space-y-2">
+                                <label className="text-xs font-semibold text-slate-400 ml-1 uppercase tracking-wider">Email Manzil (Ixtiyoriy)</label>
+                                <div className="relative group">
+                                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-500 transition-colors" size={18} />
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="alex@example.com"
+                                        className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         <div className="space-y-2">
                             <div className="flex items-center justify-between ml-1">
