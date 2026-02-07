@@ -38,13 +38,6 @@ services:
       db:
         condition: service_healthy
 
-  frontend:
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    depends_on:
-      - backend
-
   nginx:
     image: nginx:stable-alpine
     ports:
@@ -54,7 +47,6 @@ services:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     depends_on:
-      - frontend
       - backend
 
 volumes:
